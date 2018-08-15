@@ -9,6 +9,7 @@ import com.datastax.driver.core.*;
 import com.datastax.driver.core.exceptions.OperationTimedOutException;
 
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -25,16 +26,20 @@ public class App {
         final Materializer materializer = ActorMaterializer.create(system);
 
         final Statement stmt =
-                new SimpleStatement("SELECT * FROM cycling.personal_info").setFetchSize(1);
+                new SimpleStatement("SELECT * FROM cycling.personal_info").setFetchSize(20);
 
         final CompletionStage<List<Row>> rows =
                 CassandraSource.create(stmt, session).runWith(Sink.seq(), materializer);
 
-        rows.toCompletableFuture()
+        Set<Integer> ids = rows.toCompletableFuture()
                 .get(3, TimeUnit.SECONDS)
                 .stream()
                 .map(r -> r.getInt("id"))
                 .collect(Collectors.toSet());
+
+        for (Integer id: ids) {
+            System.out.println("ID: " + id);
+        }
 
         Thread.sleep(10000l);
 
