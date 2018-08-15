@@ -26,7 +26,7 @@ public class App {
         final Materializer materializer = ActorMaterializer.create(system);
 
         final Statement stmt =
-                new SimpleStatement("SELECT * FROM cycling.personal_info").setFetchSize(20);
+                new SimpleStatement("SELECT * FROM cycling.personal_info").setFetchSize(10000);
 
         final CompletionStage<List<Row>> rows =
                 CassandraSource.create(stmt, session).runWith(Sink.seq(), materializer);
@@ -41,7 +41,7 @@ public class App {
             System.out.println("ID: " + id);
         }
 
-        Thread.sleep(1000000l);
+        Thread.sleep(5000l);
 
         system.terminate();
 
