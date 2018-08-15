@@ -41,7 +41,7 @@ public class App {
             System.out.println("ID: " + id);
         }
 
-        Thread.sleep(10000l);
+        Thread.sleep(1000000l);
 
         system.terminate();
 

@@ -13,6 +13,7 @@ import akka.stream.javadsl.Source;
 import com.datastax.driver.core.*;
 
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.ExecutionException;
@@ -39,11 +40,13 @@ public class Insert1 {
 
         PersonalInfo personalInfo = new PersonalInfo(2, "Jeevan", "18-08-1999");
 
+        Random random = new Random(999999);
+
         Source<PersonalInfo, NotUsed> source =
                 Source.from(
-                        IntStream.range(1, 100)
+                        IntStream.range(1, 10000)
                                 .boxed()
-                                .map(i -> new PersonalInfo(i, "name", "18-02-1999"))
+                                .map(i -> new PersonalInfo(random.nextInt(), "name" + random.nextInt(), "18-02-1999"))
                                 .collect(Collectors.toList()));
 
         final Flow<PersonalInfo, PersonalInfo, NotUsed> flow =
