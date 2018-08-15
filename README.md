@@ -1,1 +1,1 @@
-# alpakka_cassandra
+# Alpakka Cassandra

@@ -14,6 +14,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class App {
     public static void main(String args[]) throws InterruptedException, ExecutionException, TimeoutException {
@@ -29,11 +30,17 @@ public class App {
         final CompletionStage<List<Row>> rows =
                 CassandraSource.create(stmt, session).runWith(Sink.seq(), materializer);
 
-        rows.toCompletableFuture().get(3, TimeUnit.SECONDS).stream().map( r -> r.getInt("id")).collect(Collectors.toSet());
+        rows.toCompletableFuture()
+                .get(3, TimeUnit.SECONDS)
+                .stream()
+                .map(r -> r.getInt("id"))
+                .collect(Collectors.toSet());
 
-        Thread.sleep(1000l);
+        Thread.sleep(10000l);
 
         system.terminate();
+
+        System.exit(0);
 
     }
 }
