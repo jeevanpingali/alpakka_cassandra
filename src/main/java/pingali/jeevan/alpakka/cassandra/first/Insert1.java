@@ -44,7 +44,7 @@ public class Insert1 {
 
         Source<PersonalInfo, NotUsed> source =
                 Source.from(
-                        IntStream.range(1, 10000)
+                        IntStream.range(1, 1000)
                                 .boxed()
                                 .map(i -> new PersonalInfo(random.nextInt(), "name" + random.nextInt(), "18-02-1999"))
                                 .collect(Collectors.toList()));

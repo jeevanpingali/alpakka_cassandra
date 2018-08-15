@@ -39,7 +39,7 @@ public class App {
 
         for (Integer id: ids) {
             System.out.println("ID: " + id);
-        }
+        }x
 
         Thread.sleep(5000l);
 
